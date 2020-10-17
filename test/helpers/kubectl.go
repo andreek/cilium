@@ -2260,6 +2260,12 @@ func (kub *Kubectl) overwriteHelmOptions(options map[string]string) error {
 		addIfNotOverwritten(options, "devices", devices)
 	}
 
+	// If we have dual stack support enabled we need to enable auto-direct-node-routes
+	// option for cilium-agent.
+	if DualStackSupported() {
+		options = addIfNotOverwritten(options, "autoDirectNodeRoutes", "true")
+	}
+
 	return nil
 }
 
